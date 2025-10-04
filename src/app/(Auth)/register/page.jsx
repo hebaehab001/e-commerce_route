@@ -57,7 +57,7 @@ export default function Register() {
       <section className="flex justify-center">
         <Card className="w-full max-w-sm text-center">
           <CardHeader>
-            <CardTitle className='text-4xl'>Sign Up</CardTitle>
+            <CardTitle className="text-4xl">Register Form</CardTitle>
           </CardHeader>
           <CardContent>
             <Form {...form} className="gap-2">
@@ -138,7 +138,7 @@ export default function Register() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit">Submit</Button>
+                <Button type="submit">Register</Button>
               </form>
             </Form>
           </CardContent>
