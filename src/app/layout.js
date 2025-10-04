@@ -5,7 +5,7 @@ import Link from "next/link";
 import getAllCategories from "../APIs/GetAllcategories"
 import GetAllBrands from "../APIs/GetAllBrands"
 import { BreadCrumb } from "./_Components/BreadCrumb/BreadCrumb";
-
+import { Toaster } from "@/components/ui/sonner"
 
 export const metadata = {
   title: "Create Next App",
@@ -95,10 +95,12 @@ export default async function RootLayout({ children }) {
                 </div>
 
               </nav> */}
-              <BreadCrumb />
+              {/* <BreadCrumb /> */}
               {children}
+
             </div>
           </div>
+          <Toaster />
         </div>
 
 

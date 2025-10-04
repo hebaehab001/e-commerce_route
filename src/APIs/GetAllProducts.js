@@ -1,5 +1,5 @@
 export default async function getAllProducts() {
-    const res = await fetch(`${process.env.GET_PRODUCTS}`, {
+    const res = await fetch(process.env.GET_PRODUCTS, {
         next: { revalidate: 600 },
     });
     if (!res.ok) {

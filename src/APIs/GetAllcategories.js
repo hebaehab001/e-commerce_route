@@ -1,5 +1,5 @@
 export default async function getAllCategories() {
-    const res = await fetch(`${process.env.GET_CATEOGRIES}`, {
+    const res = await fetch(process.env.GET_CATEOGRIES, {
         cache:'force-cache'
     });
     if (!res.ok) {
