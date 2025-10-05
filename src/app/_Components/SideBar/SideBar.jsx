@@ -1,72 +1,93 @@
 "use client";
-
-import {
-  Sidebar,
-  SidebarCollapse,
-  SidebarItem,
-  SidebarItemGroup,
-  SidebarItems,
-  SidebarLogo,
-} from "flowbite-react";
-import {HiShoppingBag} from "react-icons/hi";
+import { HiShoppingBag } from "react-icons/hi";
 import { BiSolidCategory } from "react-icons/bi";
 import { TbCircleDashedLetterB } from "react-icons/tb";
 import React from "react";
 import Link from "next/link";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+} from "@/components/ui/sidebar";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
 export default function SideBar({ Categories, Brands }) {
+  const [isOpenc, setIsOpenc] = React.useState(false);
+  const [isOpenb, setIsOpenb] = React.useState(false);
   return (
     <>
-      {/* <aside
-        id="sidebar-multi-level-sidebar"
-        className="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
-        aria-label="Sidebar"
-      > */}
-      {/* <div className="h-full px-3 pb-4 overflow-none bg-white dark:bg-gray-800"> */}
-      {/* <Link
-            href="/product"
-            className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-          >
-            <svg
-              className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 18 20"
-            >
-              <path d="M17 5.923A1 1 0 0 0 16 5h-3V4a4 4 0 1 0-8 0v1H2a1 1 0 0 0-1 .923L.086 17.846A2 2 0 0 0 2.08 20h13.84a2 2 0 0 0 1.994-2.153L17 5.923ZM7 9a1 1 0 0 1-2 0V7h2v2Zm0-5a2 2 0 1 1 4 0v1H7V4Zm6 5a1 1 0 1 1-2 0V7h2v2Z" />
-            </svg>
-            <span className="flex-1 ms-3 whitespace-nowrap">All Products</span>
-          </Link> */}
-      <Sidebar
-        aria-label="Sidebar with multi-level dropdown example"
-        className="fixed top-0 left-0 border-0 rounded-none"
-      >
-        <SidebarLogo href="#">Flowbite</SidebarLogo>
-        <SidebarItems>
-          <SidebarItemGroup>
-            <SidebarItem as={Link} href="/product" icon={HiShoppingBag}>
-              All Products
-            </SidebarItem>
-            <SidebarCollapse icon={BiSolidCategory} label="Categories">
-              {Categories.data.map((category) => (
-                <SidebarItem as={Link} key={category._id} href="#">
-                  {category.name}
-                </SidebarItem>
-              ))}
-            </SidebarCollapse>
-            <SidebarCollapse icon={TbCircleDashedLetterB} label="Brands">
-              {Brands.data.map((brand) => (
-                <SidebarItem as={Link} key={brand._id} href="#">
-                  {brand.name}
-                </SidebarItem>
-              ))}
-            </SidebarCollapse>
-          </SidebarItemGroup>
-        </SidebarItems>
+      <Sidebar className="z-50">
+        <SidebarHeader>
+          <Link href="/" className="flex ms-2 md:me-24">
+            <img
+              src="https://flowbite.com/docs/images/logo.svg"
+              className="h-8 me-3"
+              alt="FlowBite Logo"
+            />
+            <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
+              E-commerce
+            </span>
+          </Link>
+        </SidebarHeader>
+        <SidebarContent className=" bg-amber-700">
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <Link href="product">
+                  <HiShoppingBag /> <span>All Products</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+          <Collapsible open={isOpenc} onOpenChange={setIsOpenc}>
+            <SidebarMenuItem>
+              <CollapsibleTrigger asChild>
+                <SidebarMenuButton>
+                  <BiSolidCategory />
+                  <span>Categories</span>
+                </SidebarMenuButton>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <SidebarMenuSub>
+                  {Categories.data.map((category) => (
+                    <SidebarMenuSubItem as={Link} key={category._id} href="#">
+                      <SidebarMenuButton>{category.name}</SidebarMenuButton>
+                    </SidebarMenuSubItem>
+                  ))}
+                </SidebarMenuSub>
+              </CollapsibleContent>
+            </SidebarMenuItem>
+          </Collapsible>
+          <Collapsible open={isOpenb} onOpenChange={setIsOpenb}>
+            <SidebarMenuItem>
+              <CollapsibleTrigger asChild>
+                <SidebarMenuButton>
+                  <TbCircleDashedLetterB />
+                  <span>Brands</span>
+                </SidebarMenuButton>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <SidebarMenuSub>
+                  {Brands.data.map((brand) => (
+                    <SidebarMenuSubItem as={Link} key={brand._id} href="#">
+                      <SidebarMenuButton>{brand.name}</SidebarMenuButton>
+                    </SidebarMenuSubItem>
+                  ))}
+                </SidebarMenuSub>
+              </CollapsibleContent>
+            </SidebarMenuItem>
+          </Collapsible>
+        </SidebarContent>
       </Sidebar>
-      {/* </div> */}
-      {/* // </aside> */}
     </>
   );
 }

@@ -20,9 +20,10 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { loginSchema } from "_/schema/login.schema";
-import PostSignIn from "_/APIs/PostSignIn";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+import Link from "next/link";
 
 export default function Login() {
   const router = useRouter();
@@ -34,17 +35,22 @@ export default function Login() {
     resolver: zodResolver(loginSchema),
   });
   async function handleLogin(values) {
-    try {
-      const { data } = await PostSignIn(values);
-      toast.success(data.message, {
+    const res = await signIn("credentials", {
+      email: values.email,
+      password: values.password,
+      redirect: false,
+      callbackUrl: "/",
+    });
+    if (res?.ok) {
+      toast.success("login success", {
         position: "top-right",
-        duration: 3000,
+        duration: 1000,
       });
-      router.push("/");
-    } catch (error) {
-      toast.error(error.response?.data?.message ?? "Something went wrong", {
+      router.push(res.url || "/");
+    } else {
+      toast.error(res.error, {
         position: "top-right",
-        duration: 3000,
+        duration: 1000,
       });
     }
   }
@@ -97,7 +103,12 @@ export default function Login() {
               </form>
             </Form>
           </CardContent>
-          <CardFooter>{/* <Button type="submit">Submit</Button> */}</CardFooter>
+          <CardFooter className="text-center justify-center w-full text-xs">
+            <span>Don't have an account ? </span>
+            <Link href='/register'>
+              <Button variant={Link} className="px-1 text-xs underline hover:cursor-pointer hover:text-amber-950">Sign Up</Button>
+            </Link>
+          </CardFooter>
         </Card>
       </section>
     </>

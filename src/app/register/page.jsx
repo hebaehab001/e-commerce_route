@@ -23,10 +23,11 @@ import { registerSchema } from "_/schema/register.schema";
 import PostSignup from "_/APIs/PostSignup";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-
+import Link from "next/link";
 export default function Register() {
   const router = useRouter();
   const form = useForm({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -34,12 +35,11 @@ export default function Register() {
       rePassword: "",
       phone: "",
     },
-    resolver: zodResolver(registerSchema),
   });
   async function handleRegister(values) {
     try {
-      const { data } = await PostSignup(values);
-      toast.success(data.message, {
+        await PostSignup(values);
+      toast.success("registered successfully", {
         position: "top-right",
         duration: 3000,
       });
@@ -142,7 +142,17 @@ export default function Register() {
               </form>
             </Form>
           </CardContent>
-          <CardFooter>{/* <Button type="submit">Submit</Button> */}</CardFooter>
+          <CardFooter className="text-center justify-center w-full text-xs">
+            <span>Have an account ? </span>
+            <Link href="/login">
+              <Button
+                variant={Link}
+                className="px-1 text-xs underline hover:cursor-pointer hover:text-amber-950"
+              >
+                LogIn
+              </Button>
+            </Link>
+          </CardFooter>
         </Card>
       </section>
     </>
